@@ -12,10 +12,9 @@ const PaletteColorsStyled = style.div`
 
 const Palette = ({ palette: { colors, emoji, id, paleteName } }) => { 
     console.log({colors})
-    const colorBoxes = colors.map(color => <ColorBox { ...color }/>);
+    const colorBoxes = colors.map((color, idx) => <ColorBox key={idx} { ...color }/>);
     return (
-        <PaletteStyled>
-            
+        <PaletteStyled>  
             <PaletteColorsStyled>
                 {colorBoxes}
             </PaletteColorsStyled>

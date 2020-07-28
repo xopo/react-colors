@@ -1,5 +1,6 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import styled from 'styled-components';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 // import PropTypes from 'prop-types'
 
 const ColorBoxStyled = styled.div`
@@ -8,7 +9,7 @@ const ColorBoxStyled = styled.div`
     margin: 0 auto;
     display: inline-block;
     position: relative;
-    background: ${props => props.color};
+    background: ${({ color }) => color};
     margin-bottom: -3.5px;
 
 
@@ -59,17 +60,83 @@ const CopyButtonStyled = styled.button`
     };
 `;
 
+const OverlayedStyled = styled.div`
+    background: ${({ color }) => color};
+    opacity: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+    transform: scale(0.1);
+    
+    ${({expand}) => expand ? `
+        opacity: 1;
+        transform: scale(50);
+        z-index: 10;
+        position: absolute;
+    ` : ''
+    }
+`;
+
+const OverlayedMessage = styled.div`
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    transform: scale(${({show}) => show ? 1 : 0.1});
+    opacity: ${({show}) => show ? 1 : 0};
+    color: white;
+    z-index: ${({show}) => show ? 10 : 0};
+
+    h1 {
+        font-weight: 400;
+        text-shadow: 1px 2px black;
+        background: rgba(255, 255, 255, 0.2);
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    p {
+        font-size: 2rem;
+        text-transform: uppercase;
+        font-weight: 200;
+    }
+`;
+
 const ColorBox = memo(function ColorBox({name, color}) {
+    const [copied, setCopied] = useState(false);
+    const copyColour = () => {
+        setCopied(true);
+        const timer = setTimeout(() => {
+            setCopied(false);
+            clearTimeout(timer);
+        }, 1000);
+    }
+    
     return (
-        <ColorBoxStyled color={color}>
-            <ContainerStyled>
-                <ContentStyled>
-                    <span>{name}</span>
-                </ContentStyled>
-                <CopyButtonStyled>copy</CopyButtonStyled>
-            </ContainerStyled>
-            <span>See more</span>
-        </ColorBoxStyled>
+        <CopyToClipboard text={color} onCopy={copyColour}>
+            <ColorBoxStyled color={color}>
+                <OverlayedStyled color={color} expand={copied} />
+                <OverlayedMessage show={copied}>
+                    <h1>copied!</h1>
+                    <p>{color}</p>
+                </OverlayedMessage>
+                <ContainerStyled>
+                    <ContentStyled>
+                        <span>{name}</span>
+                    </ContentStyled>
+                    <CopyButtonStyled>copy</CopyButtonStyled>
+                </ContainerStyled>
+                <span>See more</span>
+            </ColorBoxStyled>
+        </CopyToClipboard>
     )
 })
 
