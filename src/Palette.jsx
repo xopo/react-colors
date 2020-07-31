@@ -10,9 +10,9 @@ const PaletteColorsStyled = style.div`
     height: 100%;
 `;
 
-const Palette = ({ palette: { colors, emoji, id, paleteName } }) => { 
-    console.log({colors})
-    const colorBoxes = colors.map((color, idx) => <ColorBox key={idx} { ...color }/>);
+const Palette = ({ palette: { colors, emoji, id, paletteName }, selected }) => { 
+    console.log({colors, emoji, id, paletteName, selected})
+    const colorBoxes = colors[selected].map((color, idx) => <ColorBox key={idx} {...color}/>);
     return (
         <PaletteStyled>  
             <PaletteColorsStyled>
