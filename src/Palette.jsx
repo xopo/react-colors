@@ -11,8 +11,8 @@ const PaletteColorsStyled = style.div`
 `;
 
 const Palette = ({ palette: { colors, emoji, id, paletteName }, selected }) => { 
-    console.log({colors, emoji, id, paletteName, selected})
     const colorBoxes = colors[selected].map((color, idx) => <ColorBox key={idx} {...color}/>);
+    
     return (
         <PaletteStyled>  
             <PaletteColorsStyled>

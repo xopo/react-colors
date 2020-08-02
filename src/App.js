@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Palette from './Palette';
 import seedColors from './seedColors';
 import { generatePalette } from './colorsHelper';
+import Navbar from './Navbar';
+
+
 
 function App() {
-  const palette = seedColors[0];
+  const [level, setLevel ] = useState(500);
+  const palette = seedColors[2];
   const generatedPalette = generatePalette(palette);
-  const selectedRange = 500;
-  console.log({generatedPalette, selectedRange})
-
+  
   return (
     <div className="App">
-      <h3>Hello World of colors !!!</h3>
-      <Palette palette={ generatedPalette } selected={selectedRange}/>
+      <Navbar {...{level, setLevel}} />
+      <Palette palette={ generatedPalette } selected={level}/>
     </div>
   );
 }
