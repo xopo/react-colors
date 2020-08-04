@@ -61,7 +61,6 @@ const CopyButtonStyled = styled.button`
         transition: 0.5s;
     };
 `;
-
 const OverlayedStyled = styled.div`
     background-color: ${({ color }) => color};
     opacity: 0;
@@ -79,7 +78,6 @@ const OverlayedStyled = styled.div`
     ` : ''
     }
 `;
-
 const OverlayedMessage = styled.div`
     position: fixed;
     left: 0;
@@ -128,7 +126,7 @@ const ColorBox = memo(function ColorBox({color, id, name}) {
                 <OverlayedStyled color={color} expand={copied} />
                 <OverlayedMessage show={copied}>
                     <h1>copied!</h1>
-                    <p>{name}</p>
+                    <p>{`${name} - ${color}`}</p>
                 </OverlayedMessage>
                 <ContainerStyled>
                     <ContentStyled>
