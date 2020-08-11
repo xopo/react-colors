@@ -12,6 +12,20 @@ const ColorBoxStyled = styled.div`
     background: ${({ color }) => color};
     margin-bottom: -3.5px;
 
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: transparent;
+        /* outline: 1px solid rgba(0, 0, 0, 0.2); */
+        /* box-shadow: -1px -1px 1px white; */
+        border-left: 1px solid rgba(0,0,0,0.2);
+        border-top: 1px solid rgba(0,0,0,0.2);
+        box-shadow: -1px -1px 1px rgba(255,255, 255, 0.3);
+    }
 
     /* see more span */
     > span {
