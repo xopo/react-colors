@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Slider  from 'rc-slider';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -24,39 +25,34 @@ const TitleStyled = styled.h3`
     margin: 0;
     background-color: rgb(255,236,248);
 `;
-
 const SelectStyled = styled.div`
     align-self: center;
     margin-left: auto;
     margin-right: 20px;
 `;
-
 const NavStyled = styled.div`
     display: flex;
     align-items: center;
     margin-left: auto;
 `;
-const Navbar = ({level, setLevel, colorFormat, changeColorFormat}) => {
-    
-    
-    return (
-        <NavStyled>
-            <TitleStyled>
-                Hello World of colors !!!
-            </TitleStyled>
-            <SliderStyled>
-                Level: {level}
-                <Slider min={100} max={900} step={100} defaultValue={level} onAfterChange={newLevel => setLevel(newLevel) }/> 
-            </SliderStyled>
-            <SelectStyled>
-                <Select value={colorFormat} onChange={(ev) => changeColorFormat(ev.target.value)}>
-                    <MenuItem value='hex'>Hex - #ffffff</MenuItem>
-                    <MenuItem value='rgb'>Rgb - rgb(233,43,24)</MenuItem>
-                    <MenuItem value='rgba'>Rgba - rgba(233,43,24, 0.3)</MenuItem>
-                </Select>
-            </SelectStyled>
-        </NavStyled>
-    );
-}
+
+const Navbar = ({level, setLevel, colorFormat, changeColorFormat}) => (
+    <NavStyled>
+        <TitleStyled>
+            <Link to='/'>Hello World of colors !!! </Link>
+        </TitleStyled>
+        <SliderStyled>
+            Level: {level}
+            <Slider min={100} max={900} step={100} defaultValue={level} onAfterChange={newLevel => setLevel(newLevel) }/> 
+        </SliderStyled>
+        <SelectStyled>
+            <Select value={colorFormat} onChange={(ev) => changeColorFormat(ev.target.value)}>
+                <MenuItem value='hex'>Hex - #ffffff</MenuItem>
+                <MenuItem value='rgb'>Rgb - rgb(233,43,24)</MenuItem>
+                <MenuItem value='rgba'>Rgba - rgba(233,43,24, 0.3)</MenuItem>
+            </Select>
+        </SelectStyled>
+    </NavStyled>
+);
 
 export default Navbar;
