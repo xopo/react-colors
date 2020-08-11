@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import Palette from './Palette';
 import seedColors from './seedColors';
 import { generatePalette } from './colorsHelper';
@@ -14,8 +15,17 @@ function App() {
   
   return (
     <div className="App">
-      <Navbar {...{level, setLevel, colorFormat, changeColorFormat}} />
-      <Palette palette={ generatedPalette } selected={level} colorFormat={colorFormat} />
+      <Switch>
+        <Route exact path='/' render={() => <h1>route goes here</h1>}/>
+        <Route exact path='/palette/:id' render={
+          (params) => { 
+            console.log(params); 
+            return <h1>route goes here</h1>;
+          } 
+        }/>
+      </Switch>
+      {/* <Navbar {...{level, setLevel, colorFormat, changeColorFormat}} />
+      <Palette palette={ generatedPalette } selected={level} colorFormat={colorFormat} /> */}
     </div>
   );
 }
