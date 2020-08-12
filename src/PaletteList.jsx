@@ -8,7 +8,7 @@ const PaletteList = ({palettes}) => { console.log({palettes}); return (
         <ul>
             {palettes.map(palette => (
             <li key={palette.id}>
-                <Link to={`/palette/${palette.id}`}>
+                <Link to={`/palette/${palette.id}`} key={palette.id}>
                     <MiniPalette {...palette} />
                 </Link>
             </li>))}
