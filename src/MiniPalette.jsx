@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const MiniStyled = styled.div`
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const ColorsStyled = styled.div`
@@ -22,6 +24,11 @@ const ColorsStyled = styled.div`
 const TitleStyled = styled.h5`
     display: flex;
     justify-content: space-between;
+    background: rgba(255,255,255,0.3);
+    padding: 1rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 9px;
 `;
 
 const StyledColor = styled.div`

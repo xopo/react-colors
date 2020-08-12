@@ -10,7 +10,7 @@ const PalleteListStyled = styled.div`
     justify-content: center;
     height: 100%;
     >div { /*container*/ 
-        width: 50%;
+        width: 620px;
         height: 50%;
         outline: 1px solid white;
         display: flex;
@@ -27,6 +27,9 @@ const PalleteListStyled = styled.div`
         list-style: none;
         li {
             box-sizing: border-box;
+            > a {
+                text-decoration: none;
+            }
         }
     }
 `;
