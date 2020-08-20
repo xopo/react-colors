@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <Route exact path='/' render={() => <PaletteList palettes={seedColors} />}/>
+        <Route exact path='/' render={(routeProps) => <PaletteList palettes={seedColors} {...routeProps} />}/>
         <Route exact path='/palette/:id' render={
           ({match: { params: { id } } }) => (
             [<Navbar {...{level, setLevel, colorFormat, changeColorFormat}} />,
@@ -28,6 +28,12 @@ function App() {
             ]
           )
         }/>
+        <Route exact path='/palette/:paletteId/:colorId' render={
+          ({match: { params: { paletteId, colorId } } }) => { 
+            console.log('add component for this', {colorId, paletteId});
+            return <h1>Work hard and work well</h1>
+          }
+        } />
       </Switch>
     </div>
   );

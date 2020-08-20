@@ -1,16 +1,15 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-// import PropTypes from 'prop-types'
+import { ColorDivSharedStyles } from './MiniPalette';
 
 const ColorBoxStyled = styled.div`
-    width: 20%;
-    height: 25%;
     margin: 0 auto;
     display: inline-block;
     position: relative;
-    background: ${({ color }) => color};
     margin-bottom: -3.5px;
+    ${ColorDivSharedStyles}
 
     &::after {
         content: '';
@@ -28,7 +27,7 @@ const ColorBoxStyled = styled.div`
     }
 
     /* see more span */
-    > span {
+    > a > span {
         background: rgba(255, 255, 255, 0.3);
         position: absolute;
         border: none;
@@ -40,6 +39,8 @@ const ColorBoxStyled = styled.div`
         line-height: 30px;
         text-align: center;
         font-size: 1vw;
+        cursor: pointer;
+        z-index: 1;
     }
 `;
 const ContainerStyled = styled.div`
@@ -124,7 +125,7 @@ const OverlayedMessage = styled.div`
     }
 `;
 
-const ColorBox = memo(function ColorBox({color, id, name}) {
+const ColorBox = memo(function ColorBox({color, id, name, gradientColorLink}) {
     const [copied, setCopied] = useState(false);
     const copyColour = () => {
         setCopied(true);
@@ -148,14 +149,12 @@ const ColorBox = memo(function ColorBox({color, id, name}) {
                     </ContentStyled>
                     <CopyButtonStyled>copy</CopyButtonStyled>
                 </ContainerStyled>
-                <span>See more</span>
+                <Link onClick={e => e.stopPropagation()} to={gradientColorLink}>
+                    <span>See more</span>
+                </Link>
             </ColorBoxStyled>
         </CopyToClipboard>
     )
 })
-
-// ColorBox.propTypes = {
-
-// }
 
 export default ColorBox

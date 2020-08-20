@@ -31,7 +31,7 @@ const PaletteFooterStyled = style.div`
 
 const Palette = ({ palette: { colors, paletteName, emoji }, selected, colorFormat}) => { 
     const [showInfo, setShowInfo] = useState(false);
-    const colorBoxes = colors[selected].map((color, idx) => <ColorBox key={idx} color={color[colorFormat]} {...color}/>);
+    const colorBoxes = colors[selected].map((color, idx) => <ColorBox key={idx} color={color[colorFormat]} {...color} gradientColorLink={`/palette/${paletteName}/${color.id}`}/>);
     const initialRender = useRef(true);
     
     useEffect(() => {

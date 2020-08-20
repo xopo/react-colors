@@ -9,9 +9,11 @@ const PalleteListStyled = styled.div`
     align-items: flex-start;
     justify-content: center;
     height: 100%;
-    >div { /*container*/ 
-        width: 620px;
-        height: 50%;
+   
+
+    > div { /*container*/ 
+        margin-top: 3rem;
+        width: 840px;
         outline: 1px solid white;
         display: flex;
         align-items: flex-start;
@@ -34,14 +36,17 @@ const PalleteListStyled = styled.div`
     }
 `;
 
-const PaletteList = ({palettes}) => { console.log({palettes}); return (
+const PaletteList = ({palettes, history}) => { console.log({palettes}); return (
     <PalleteListStyled>
         <div>
             <h1>React Colors</h1>
             <ul>
                 {palettes.map(palette => (
                 <li key={palette.id}>
-                    <Link to={`/palette/${palette.id}`} key={palette.id}>
+                    <Link 
+                        onClick={() => history.push(`/palette/${palette.id}`)}
+                        to={`/palette/${palette.id}`} 
+                        key={palette.id}>
                         <MiniPalette {...palette} />
                     </Link>
                 </li>))}
