@@ -43,9 +43,9 @@ export function generatePalette(starterPalette) {
         // color woud be dark -> light => we need to reverse it
         let scale = generateScale(color.color, 10).reverse(); 
         for (let i in scale) {  // get index to be use to get level
-            const level = levels[i];
+            const customLevel = levels[i];
             const newColor = {
-                name: `${color.name} ${level}`,
+                name: `${color.name} ${customLevel}`,
                 id: color.name.toLowerCase().replace(/ /, '/'),
                 hex: scale[i],
                 rgb: chroma(scale[i]).css(),
@@ -54,8 +54,8 @@ export function generatePalette(starterPalette) {
                         .replace('rgb', 'rgba')
                         .replace(')', ', 1.0)')
             }
-            if (!newPalette.colors[level]) newPalette.colors[level] = [];
-            newPalette.colors[level].push(newColor);
+            if (!newPalette.colors[customLevel]) newPalette.colors[customLevel] = [];
+            newPalette.colors[customLevel].push(newColor);
         }
     }
     

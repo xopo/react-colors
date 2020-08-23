@@ -41,10 +41,12 @@ const Navbar = ({level, setLevel, colorFormat, changeColorFormat}) => (
         <TitleStyled>
             <Link to='/'>Hello World of colors !!! </Link>
         </TitleStyled>
-        <SliderStyled>
+        { level && (
+            <SliderStyled>
             Level: {level}
-            <Slider min={100} max={900} step={100} defaultValue={level} onAfterChange={newLevel => setLevel(newLevel) }/> 
-        </SliderStyled>
+                <Slider min={100} max={900} step={100} defaultValue={level} onAfterChange={newLevel => setLevel(newLevel) }/> 
+            </SliderStyled>
+        )}
         <SelectStyled>
             <Select value={colorFormat} onChange={(ev) => changeColorFormat(ev.target.value)}>
                 <MenuItem value='hex'>Hex - #ffffff</MenuItem>

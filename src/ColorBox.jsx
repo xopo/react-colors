@@ -125,7 +125,7 @@ const OverlayedMessage = styled.div`
     }
 `;
 
-const ColorBox = memo(function ColorBox({color, id, name, gradientColorLink}) {
+const ColorBox = memo(function ColorBox({color, name, gradientColorLink}) {
     const [copied, setCopied] = useState(false);
     const copyColour = () => {
         setCopied(true);
@@ -149,9 +149,11 @@ const ColorBox = memo(function ColorBox({color, id, name, gradientColorLink}) {
                     </ContentStyled>
                     <CopyButtonStyled>copy</CopyButtonStyled>
                 </ContainerStyled>
-                <Link onClick={e => e.stopPropagation()} to={gradientColorLink}>
-                    <span>See more</span>
-                </Link>
+                { gradientColorLink && (
+                    <Link onClick={e => e.stopPropagation()} to={gradientColorLink}>
+                        <span>See more</span>
+                    </Link>
+                )}
             </ColorBoxStyled>
         </CopyToClipboard>
     )

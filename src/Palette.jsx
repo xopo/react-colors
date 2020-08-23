@@ -29,9 +29,9 @@ const PaletteFooterStyled = style.div`
     }
 `;
 
-const Palette = ({ palette: { colors, paletteName, emoji }, selected, colorFormat}) => { 
+const Palette = ({ palette: { colors, id: paletteId, paletteName, emoji }, selected, colorFormat}) => { 
     const [showInfo, setShowInfo] = useState(false);
-    const colorBoxes = colors[selected].map((color, idx) => <ColorBox key={idx} color={color[colorFormat]} {...color} gradientColorLink={`/palette/${paletteName}/${color.id}`}/>);
+    const colorBoxes = colors[selected].map((color) => <ColorBox key={color.id} color={color[colorFormat]} {...color} gradientColorLink={`/palette/${paletteId}/${color.id}`}/>);
     const initialRender = useRef(true);
     
     useEffect(() => {
