@@ -9,7 +9,11 @@ const ColorBoxStyled = styled.div`
     display: inline-block;
     position: relative;
     margin-bottom: -3.5px;
-    ${ColorDivSharedStyles}
+    ${ColorDivSharedStyles};
+    ${ ({shades}) => shades && `
+        width: 20%;
+        height: 44%;
+    `}
 
     &::after {
         content: '';
@@ -125,7 +129,7 @@ const OverlayedMessage = styled.div`
     }
 `;
 
-const ColorBox = memo(function ColorBox({color, name, gradientColorLink}) {
+const ColorBox = memo(function ColorBox({color, name, gradientColorLink, shades, children}) {
     const [copied, setCopied] = useState(false);
     const copyColour = () => {
         setCopied(true);
@@ -137,7 +141,8 @@ const ColorBox = memo(function ColorBox({color, name, gradientColorLink}) {
     
     return (
         <CopyToClipboard text={color} onCopy={copyColour}>
-            <ColorBoxStyled color={color}>
+            <ColorBoxStyled color={color} shades={shades}>
+                {children}
                 <OverlayedStyled color={color} expand={copied} />
                 <OverlayedMessage show={copied}>
                     <h1>copied!</h1>

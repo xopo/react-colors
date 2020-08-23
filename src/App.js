@@ -25,19 +25,19 @@ function App() {
         <Route exact path='/palette/:id' render={
           ({match: { params: { id } } }) => (
             [
-              <Navbar {...{level, setLevel, colorFormat, changeColorFormat}} />,
-              <Palette palette={ getPalette(id) } selected={level} colorFormat={colorFormat} />
+              <Navbar key='navbarFull' {...{level, setLevel, colorFormat, changeColorFormat}} />,
+              <Palette key={`palette-${id}`} palette={ getPalette(id) } selected={level} colorFormat={colorFormat} />
             ]
           )
         }/>
         <Route exact path='/palette/:paletteId/:colorId' render={
           ({match: { params: { paletteId, colorId } } }) => { 
             if (!paletteId || !colorId) return null;
-            const { colors } = getPalette(paletteId);
+            const { colors, emoji } = getPalette(paletteId);
 
             return [
-              <Navbar {...{colorFormat, changeColorFormat}} />,
-              <SingleColrPalette {...{paletteId, colorId, colors, colorFormat}} />
+              <Navbar key='navbarColor' {...{colorFormat, changeColorFormat}} />,
+              <SingleColrPalette key='singlePalette' {...{paletteId, colorId, colors, colorFormat, emoji}} />
             ]
           }
         } />

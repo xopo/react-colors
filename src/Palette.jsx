@@ -16,7 +16,7 @@ const PaletteColorsStyled = style.div`
     flex-flow: wrap;
 `;
 
-const PaletteFooterStyled = style.div`
+export const PaletteFooterStyled = style.div`
     height: 5vh;
     display: flex;
     justify-content: flex-end;
