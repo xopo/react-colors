@@ -14,7 +14,22 @@ const ColorBoxStyled = styled.div`
         width: 20%;
         height: 44%;
     `}
-
+    ${({endBox}) => endBox && `
+        position: absolute;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        button {
+           left: 0;
+           opacity: 1;
+           z-index: 1;
+           a {
+               color: white;
+               text-decoration: none;
+           }
+        }
+    `}
     &::after {
         content: '';
         position: absolute;
@@ -60,7 +75,7 @@ const ContentStyled = styled.div`
     text-transform: uppercase;
     font-size: 1vw;
 `;
-const CopyButtonStyled = styled.button`
+export const CopyButtonStyled = styled.button`
     width: 100px;
     height: 30px;
     position: absolute;
@@ -129,7 +144,7 @@ const OverlayedMessage = styled.div`
     }
 `;
 
-const ColorBox = memo(function ColorBox({color, name, gradientColorLink, shades, children}) {
+const ColorBox = memo(function ColorBox({color, name, gradientColorLink, shades, children, endBox}) {
     const [copied, setCopied] = useState(false);
     const copyColour = () => {
         setCopied(true);
@@ -138,27 +153,31 @@ const ColorBox = memo(function ColorBox({color, name, gradientColorLink, shades,
             clearTimeout(timer);
         }, 1000);
     }
+    const styledContent = (
+        <>
+            <OverlayedStyled color={color} expand={copied} />
+            <OverlayedMessage show={copied}>
+                <h1>copied!</h1>
+                <p>{`${name} - ${color}`}</p>
+            </OverlayedMessage>
+            <ContainerStyled>
+                <ContentStyled>
+                    <span>{name}</span>
+                </ContentStyled>
+                <CopyButtonStyled>copy</CopyButtonStyled>
+            </ContainerStyled>
+            { gradientColorLink && (
+                <Link onClick={e => e.stopPropagation()} to={gradientColorLink}>
+                    <span>See more</span>
+                </Link>
+            )}
+        </>
+    );
     
     return (
         <CopyToClipboard text={color} onCopy={copyColour}>
-            <ColorBoxStyled color={color} shades={shades}>
-                {children}
-                <OverlayedStyled color={color} expand={copied} />
-                <OverlayedMessage show={copied}>
-                    <h1>copied!</h1>
-                    <p>{`${name} - ${color}`}</p>
-                </OverlayedMessage>
-                <ContainerStyled>
-                    <ContentStyled>
-                        <span>{name}</span>
-                    </ContentStyled>
-                    <CopyButtonStyled>copy</CopyButtonStyled>
-                </ContainerStyled>
-                { gradientColorLink && (
-                    <Link onClick={e => e.stopPropagation()} to={gradientColorLink}>
-                        <span>See more</span>
-                    </Link>
-                )}
+            <ColorBoxStyled { ... {color, shades, endBox} } >
+                { children ? children : styledContent }
             </ColorBoxStyled>
         </CopyToClipboard>
     )
