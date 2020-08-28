@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { ColorDivSharedStyles } from './MiniPalette';
+import chroma from 'chroma-js';
 
 const ColorBoxStyled = styled.div`
     margin: 0 auto;
@@ -44,23 +45,6 @@ const ColorBoxStyled = styled.div`
         border-top: 1px solid rgba(0,0,0,0.2);
         box-shadow: -1px -1px 1px rgba(255,255, 255, 0.3);
     }
-
-    /* see more span */
-    > a > span {
-        background: rgba(255, 255, 255, 0.3);
-        position: absolute;
-        border: none;
-        right: 0;
-        bottom: 0;
-        color: white;
-        width: 35%;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        font-size: 1vw;
-        cursor: pointer;
-        z-index: 1;
-    }
 `;
 const ContainerStyled = styled.div`
 `;
@@ -70,7 +54,7 @@ const ContentStyled = styled.div`
     left: 0;
     bottom: 0;
     padding: 10px;
-    color: black;
+    color: ${ ({ isDark })=> isDark ? 'white' : 'black' };
     letter-spacing: 1px;
     text-transform: uppercase;
     font-size: 1vw;
@@ -84,10 +68,10 @@ export const CopyButtonStyled = styled.button`
     transform: translate(-50%, -50%);
     text-align: center;
     outline: none;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.5);
     border: none;
     line-height: 28px;
-    color: white;
+    color: black;
     opacity: 0;
     
     ${ColorBoxStyled}:hover & {
@@ -125,7 +109,7 @@ const OverlayedMessage = styled.div`
     font-size: 4rem;
     transform: scale(${({show}) => show ? 1 : 0.1});
     opacity: ${({show}) => show ? 1 : 0};
-    color: white;
+    color: ${ ({ isDark })=> isDark ? 'white' : 'black' };
     z-index: ${({show}) => show ? 10 : 0};
 
     h1 {
@@ -144,6 +128,22 @@ const OverlayedMessage = styled.div`
     }
 `;
 
+const SeeMore = styled.span`
+    background: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    border: none;
+    right: 0;
+    bottom: 0;
+    width: 35%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 1vw;
+    cursor: pointer;
+    z-index: 1;
+    color: ${ ({ isDark })=> isDark ? 'white' : 'black' };
+`;
+
 const ColorBox = memo(function ColorBox({color, name, gradientColorLink, shades, children, endBox}) {
     const [copied, setCopied] = useState(false);
     const copyColour = () => {
@@ -153,22 +153,28 @@ const ColorBox = memo(function ColorBox({color, name, gradientColorLink, shades,
             clearTimeout(timer);
         }, 1000);
     }
+    const luminance = chroma(color).luminance();
+    const isDarkColor = luminance < 0.2;
+    const isLightColor = luminance > 0.5;
+
+    // console.log(color, name, isDarkColor, isLightColor, luminance)
+
     const styledContent = (
         <>
             <OverlayedStyled color={color} expand={copied} />
-            <OverlayedMessage show={copied}>
+            <OverlayedMessage show={copied} isDark={isDarkColor}>
                 <h1>copied!</h1>
                 <p>{`${name} - ${color}`}</p>
             </OverlayedMessage>
             <ContainerStyled>
-                <ContentStyled>
+                <ContentStyled isDark={isDarkColor}>
                     <span>{name}</span>
                 </ContentStyled>
-                <CopyButtonStyled>copy</CopyButtonStyled>
+                <CopyButtonStyled isLight={isLightColor}>copy</CopyButtonStyled>
             </ContainerStyled>
             { gradientColorLink && (
                 <Link onClick={e => e.stopPropagation()} to={gradientColorLink}>
-                    <span>See more</span>
+                    <SeeMore isDark={isDarkColor}>See more</SeeMore>
                 </Link>
             )}
         </>
