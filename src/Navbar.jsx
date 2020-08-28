@@ -4,43 +4,13 @@ import Slider  from 'rc-slider';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import 'rc-slider/assets/index.css'
-import styled from 'styled-components';
-
-const SliderStyled = styled.div`
-  margin-left: 1em;
-  width: 300px;
-  display: flex;
-  align-items: center;
-  .rc-slider {
-    width: 60%;
-    display: inline-block;
-    margin-left: 30px;
-  }
-`;
-const TitleStyled = styled.h3`
-    display: inline-block;
-    width: 250px;
-    margin-left: 30px;
-    padding: 30px;
-    margin: 0;
-    background-color: rgb(255,236,248);
-`;
-const SelectStyled = styled.div`
-    align-self: center;
-    margin-left: auto;
-    margin-right: 20px;
-`;
-const NavStyled = styled.div`
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-`;
+import { NavStyled, NavTitleStyled, SelectStyled, SliderStyled } from './Styled/StyledComponents';
 
 const Navbar = ({level, setLevel, colorFormat, changeColorFormat}) => (
     <NavStyled>
-        <TitleStyled>
+        <NavTitleStyled>
             <Link to='/'>Hello World of colors !!! </Link>
-        </TitleStyled>
+        </NavTitleStyled>
         { level && (
             <SliderStyled>
             Level: {level}

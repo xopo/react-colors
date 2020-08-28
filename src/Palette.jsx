@@ -2,32 +2,8 @@ import React, { memo, useEffect, useRef, useState } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import style from 'styled-components';
 import ColorBox from './ColorBox';
-
-const PaletteStyled = style.div`
-    height: calc(100vh - 140px );
-`;
-
-const PaletteColorsStyled = style.div`
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-flow: wrap;
-`;
-
-export const PaletteFooterStyled = style.div`
-    height: 5vh;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    span {
-        font-size: 1.5em;
-        display: inline-block;
-        text-align: center;
-        padding: 0 20px;
-    }
-`;
+import { PaletteStyled, PaletteColorsStyled, PaletteFooterStyled } from './Styled/StyledComponents';
 
 const Palette = ({ palette: { colors, id: paletteId, paletteName, emoji }, selected, colorFormat}) => { 
     const [showInfo, setShowInfo] = useState(false);

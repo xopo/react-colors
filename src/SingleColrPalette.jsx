@@ -1,7 +1,6 @@
 import React from 'react';
 import ColorBox from './ColorBox';
-import { PaletteFooterStyled } from './Palette';
-import { CopyButtonStyled } from './ColorBox';
+import { CopyButtonStyled, PaletteFooterStyled } from './Styled/StyledComponents';
 import { Link } from 'react-router-dom';
 
 const SingleColrPalette = ( {colorId, colors, colorFormat, paletteId, emoji} ) => {
