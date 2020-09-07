@@ -6,7 +6,10 @@ import { PalleteListStyled } from './Styled/StyledComponents';
 const PaletteList = ({palettes, history}) => { console.log({palettes}); return (
     <PalleteListStyled>
         <div>
-            <h1>React Colors</h1>
+            <nav>
+                <h1>React Colors</h1>
+                <Link to='/palette/new'>Create New Palette</Link>
+            </nav>
             <ul>
                 {palettes.map(palette => (
                 <li key={palette.id}>

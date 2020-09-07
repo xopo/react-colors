@@ -29,6 +29,20 @@ export const PalleteListStyled = styled.div`
         }
     }
 
+    nav {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 15px 5%;
+        color: white;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        a, a:visited {
+            color: white;
+            text-decoration: none;
+        }
+    }
+
     ul {
         box-sizing: border-box;
         width: 100%;
@@ -227,7 +241,6 @@ export const TitleStyled = styled.h5`
     color: #333;
 `;
 
-
 export const PaletteStyled = styled.div`
     height: calc(100vh - 140px );
 `;
@@ -252,7 +265,6 @@ export const PaletteFooterStyled = styled.div`
     }
 `;
 
-
 export const SliderStyled = styled.div`
   margin-left: 1em;
   width: 300px;
@@ -264,6 +276,7 @@ export const SliderStyled = styled.div`
     margin-left: 30px;
   }
 `;
+
 export const NavTitleStyled = styled.h3`
     display: inline-block;
     width: 250px;
@@ -272,11 +285,13 @@ export const NavTitleStyled = styled.h3`
     margin: 0;
     background-color: rgb(255,236,248);
 `;
+
 export const SelectStyled = styled.div`
     align-self: center;
     margin-left: auto;
     margin-right: 20px;
 `;
+
 export const NavStyled = styled.div`
     display: flex;
     align-items: center;

@@ -7,6 +7,7 @@ import seedColors from './seedColors';
 import { generatePalette } from './colorsHelper';
 import Navbar from './Navbar';
 import SingleColrPalette from './SingleColrPalette';
+import NewPaletteForm from './NewPaletteForm';
 
 const getPalette = (choice)  => {
   return generatePalette(seedColors.find(palette => palette.id === choice))
@@ -21,6 +22,7 @@ function App() {
   return (
     <div className="App">
       <Switch>
+        <Route exact path='/palette/new' render={() => <NewPaletteForm />} />
         <Route exact path='/' render={(routeProps) => <PaletteList palettes={seedColors} {...routeProps} />}/>
         <Route exact path='/palette/:id' render={
           ({match: { params: { id } } }) => (
