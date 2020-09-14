@@ -297,3 +297,15 @@ export const NavStyled = styled.div`
     align-items: center;
     margin-left: auto;
 `;
+
+export const DraggableColorBoxStyled = styled.div`
+    background: ${({background}) => background};
+    height: 100px;
+    width: 20%;
+    height: 25%;
+    margin: 0 auto;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+
+`;
