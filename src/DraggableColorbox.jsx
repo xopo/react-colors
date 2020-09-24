@@ -1,9 +1,9 @@
 import React from 'react';
 import { DraggableColorBoxStyled } from './Styled/StyledComponents';
-const DraggableColorbox = ({background}) => {
+const DraggableColorbox = ({ background, name }) => {
     return (
         <DraggableColorBoxStyled {...{background}}>
-            {background}
+            {name}
         </DraggableColorBoxStyled>
     );
 }

@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Button from '@material-ui/core/Button';
 import { ChromePicker } from 'react-color';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import DraggableColorBoxStyled from './DraggableColorbox';
 
 const drawerWidth = 400;
@@ -74,24 +75,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewPaletteForm() {
+const trimLowerCase = (s) => s.trim().toLowerCase();
+
+export default function NewPaletteForm({ history, newPalette, updateNewPalette }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [newColor, setNewColor] = React.useState('teal');
-  const [colors, addNewColor] = React.useState(['teal', 'red', 'lime', 'yellow'])
+  const [newName, setNewName] = React.useState('');
+  const [colors, addNewColor] = React.useState(newPalette.colors)
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
+
+  React.useEffect(() => {
+    ValidatorForm.addValidationRule('colorExists', (name) => !colors.some(item => trimLowerCase(item.name) === trimLowerCase(name)));
+
+    return (() => ValidatorForm.removeValidationRule('colorExists'));
+  }, [colors]);
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
   const appendNewColor = () => {
-      if (!colors.includes(newColor)) {
-        addNewColor([...colors, newColor]);
+      if (!colors.find(col => col.color === newColor)) {
+        addNewColor([...colors, { color: newColor, name: newName}]);
       }
+  }
+
+  const savePalette = () => {
+    updateNewPalette({
+      ...newPalette, 
+      id: newPalette.paletteName.replace(/ /g, '-').toLowerCase(),
+      colors:  [...colors]
+    });
+    history.push('/')
   }
 
   console.log({newColor})
@@ -101,6 +121,7 @@ export default function NewPaletteForm() {
       <CssBaseline />
       <AppBar
         position="fixed"
+        color='default'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -117,6 +138,7 @@ export default function NewPaletteForm() {
           </IconButton>
           <Typography variant="h6" noWrap>
             Persistent drawer
+            <Button variant='outlined' color='primary' onClick={savePalette}>Save Palettea</Button>
           </Typography>
         </Toolbar>
       </AppBar>
@@ -141,12 +163,21 @@ export default function NewPaletteForm() {
             <Button variant='outlined' color='primary'>RandomColor</Button>
         </div>
         <ChromePicker color={newColor} onChangeComplete={({hex}) => setNewColor(hex)} />
-        <Button 
-            variant='contained' 
-            color='primary' 
-            onClick={appendNewColor}
-            style={{backgroundColor: newColor}}
-        >Add color</Button>
+        <ValidatorForm onSubmit={appendNewColor}>
+          <TextValidator 
+            value={newName}
+            onChange={({target: { value }}) => setNewName(value)}
+            validators={['required', 'colorExists']}
+            errorMessages={['New color name is required', 'Name already used']}
+          />
+        
+          <Button 
+              variant='contained' 
+              color='primary' 
+              type='submit'
+              style={{backgroundColor: newColor}}
+          >Add color </Button>
+      </ValidatorForm>
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -155,9 +186,9 @@ export default function NewPaletteForm() {
         })}
       >
         <div className={classes.drawerHeader} />
-        {colors.map(color => (
+        {colors.map(({color, name},i) => (
             // <li style={{ backgroundColor:color }}>{color}</li>
-            <DraggableColorBoxStyled background={color} />
+            <DraggableColorBoxStyled key={`${color}- ${name}-${i}`} background={color} name={name} />
         ))}
       </main>
     </div>

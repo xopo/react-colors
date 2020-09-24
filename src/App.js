@@ -9,33 +9,54 @@ import Navbar from './Navbar';
 import SingleColrPalette from './SingleColrPalette';
 import NewPaletteForm from './NewPaletteForm';
 
-const getPalette = (choice)  => {
-  return generatePalette(seedColors.find(palette => palette.id === choice))
-}
+const getPalette = (seedColors, choice) => generatePalette(seedColors.find(palette => palette.id === choice));
+
+const newPaletteInitial = {
+  colors: [],
+  emoji: "🎨",
+  id: '3',
+  paletteName: 'New Test Palette',
+};
 
 function App() {
   const [level, setLevel ] = useState(500);
   const [colorFormat, changeColorFormat] = useState('hex');
-  // const palette = seedColors[2];
-  // const generatedPalette = generatePalette(palette);
+  const [newPalette, updateNewPalette] = useState(newPaletteInitial);
+  const [palettes, updatePalettes] = useState(seedColors);
+
+  const saveNewPalette = (createdPalette) => {
+    updateNewPalette(createdPalette);
+    
+    const newPaletteExists = palettes.some(p => p.paletteName === createdPalette.paletteName);
+    const updatedPalettes = newPaletteExists ? 
+        palettes.map( p => {
+          if (p.paletteName === createdPalette.paletteName) {
+            p.colors = [...createdPalette.colors]
+          }
+          return p;
+        }) : 
+        [...palettes, createdPalette];
+        updatePalettes(updatedPalettes);
+  }
   
   return (
     <div className="App">
       <Switch>
-        <Route exact path='/palette/new' render={() => <NewPaletteForm />} />
-        <Route exact path='/' render={(routeProps) => <PaletteList palettes={seedColors} {...routeProps} />}/>
+        {/* instead of using routeProps I destructure and send only history */}
+        <Route exact path='/palette/new' render={({history}) => <NewPaletteForm {...{newPalette, updateNewPalette: saveNewPalette, history}}/>} />
+        <Route exact path='/' render={(routeProps) => <PaletteList palettes={palettes} {...routeProps} />}/>
         <Route exact path='/palette/:id' render={
           ({match: { params: { id } } }) => (
             [
               <Navbar key='navbarFull' {...{level, setLevel, colorFormat, changeColorFormat}} />,
-              <Palette key={`palette-${id}`} palette={ getPalette(id) } selected={level} colorFormat={colorFormat} />
+              <Palette key={`palette-${id}`} palette={ getPalette(palettes, id) } selected={level} colorFormat={colorFormat} />
             ]
           )
         }/>
         <Route exact path='/palette/:paletteId/:colorId' render={
           ({match: { params: { paletteId, colorId } } }) => { 
             if (!paletteId || !colorId) return null;
-            const { colors, emoji } = getPalette(paletteId);
+            const { colors, emoji } = getPalette(palettes, paletteId);
 
             return [
               <Navbar key='navbarColor' {...{colorFormat, changeColorFormat}} />,
